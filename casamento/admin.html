@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo | Presentes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div id="admin-panel" class="container mx-auto p-4 md:p-8 max-w-4xl hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Painel de Presentes</h1>
+            <p class="text-gray-600 mb-6">Acompanhe em tempo real as contribuições recebidas.</p>
+
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg mb-6" role="alert">
+                <p class="font-bold text-lg">Total Arrecadado</p>
+                <p id="total-arrecadado" class="text-2xl">R$ 0,00</p>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="w-2/4 text-left py-3 px-4 uppercase font-semibold text-sm">Presente</th>
+                            <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">Valor</th>
+                            <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">Data</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-contribuicoes" class="text-gray-700">
+                        <tr>
+                            <td colspan="3" class="text-center py-10" id="loading">Carregando presentes...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div id="password-prompt" class="flex items-center justify-center h-screen">
+        <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+            <h2 class="text-2xl font-bold mb-4">Acesso Restrito</h2>
+            <p class="mb-4">Por favor, insira a senha para ver o painel.</p>
+            <input type="password" id="password-input" class="border rounded-lg p-2 w-full mb-4" placeholder="******">
+            <button onclick="checkPassword()" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600">Entrar</button>
+            <p id="error-message" class="text-red-500 mt-2 hidden">Senha incorreta.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        // ######################################################
+        // #### SENHA DO PAINEL - EDITE A SENHA AQUI ####
+        // ######################################################
+        const PAINEL_SENHA = "noivos2025";
+        // ######################################################
+
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        
+        let unsubscribe = null; // Para parar de ouvir as atualizações quando necessário
+
+        window.checkPassword = () => {
+            const input = document.getElementById('password-input');
+            const errorMsg = document.getElementById('error-message');
+            if (input.value === PAINEL_SENHA) {
+                document.getElementById('password-prompt').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                iniciarMonitoramento();
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        };
+
+        async function iniciarMonitoramento() {
+            await signInAnonymously(auth).catch(err => console.error(err));
+            
+            const presentesRef = collection(db, `/artifacts/${appId}/public/data/presentes`);
+            const q = query(presentesRef, orderBy("data", "desc"));
+
+            unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const lista = document.getElementById('lista-contribuicoes');
+                const loading = document.getElementById('loading');
+                lista.innerHTML = '';
+                let total = 0;
+
+                if (querySnapshot.empty) {
+                    loading.parentElement.innerHTML = '<td colspan="3" class="text-center py-10">Nenhum presente recebido ainda.</td>';
+                } else {
+                     querySnapshot.forEach((doc) => {
+                        const presente = doc.data();
+                        total += presente.valor;
+
+                        const dataFormatada = presente.data ? new Date(presente.data.seconds * 1000).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Recebido';
+
+                        const tr = document.createElement('tr');
+                        tr.className = 'border-b';
+                        tr.innerHTML = `
+                            <td class="py-3 px-4">${presente.nome}</td>
+                            <td class="py-3 px-4">R$ ${presente.valor.toFixed(2).replace('.', ',')}</td>
+                            <td class="py-3 px-4">${dataFormatada}</td>
+                        `;
+                        lista.appendChild(tr);
+                    });
+                }
+                document.getElementById('total-arrecadado').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            });
+        }
+    </script>
+</body>
+</html>
