@@ -120,23 +120,147 @@
         .gift-item button:hover {
             background-color: #9c783e;
         }
-        /* Seção de Valor Customizado */
-        .custom-value-section h3 {
-            font-weight: 400;
+        /* ESTILO PARA AS METAS */
+        .goal-item {
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+        }
+        .goal-header {
+            display: flex;
+            align-items: center;
             margin-bottom: 15px;
         }
-        .custom-value-section input {
-            width: 50%;
+        .goal-header h3 {
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+            flex-grow: 1;
+        }
+        .goal-progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        .goal-progress-bar div {
+            height: 100%;
+            background-color: #c9b083;
+            width: 0%; /* Começa em 0 */
+            transition: width 0.5s ease-in-out;
+            border-radius: 10px;
+        }
+        .goal-progress-text {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .goal-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .goal-actions input {
+            flex-grow: 1;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            font-size: 1.1em;
+            font-size: 1em;
             text-align: center;
-            margin-bottom: 15px;
         }
-        .custom-value-section button {
-             padding: 12px 25px;
+        .goal-actions button {
+            background-color: #b38b4c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
         }
+        .goal-actions button:hover {
+             background-color: #9c783e;
+        }
+        .goal-complete {
+            background-color: #e8f5e9; /* Fundo verde claro */
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #2e7d32;
+        }
+        
+        /* SEÇÃO DE VALOR CUSTOMIZADO */
+        .custom-value-card {
+            background-color: #fdfbf8;
+            border: 1px dashed #c9b083;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 40px;
+        }
+        .custom-value-card h2 {
+            font-family: 'Playfair Display', serif;
+            color: #b38b4c;
+            font-size: 1.8em;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .custom-value-card .custom-value-text {
+            font-size: 0.95em;
+            color: #555;
+            margin-bottom: 25px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .custom-value-card .input-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .custom-value-card .currency-symbol {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+            color: #888;
+        }
+        .custom-value-card input {
+            width: 200px;
+            padding: 12px 12px 12px 45px; /* Espaço para o R$ */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.3em;
+            font-weight: 600;
+            text-align: center;
+            color: #333;
+        }
+        .custom-value-card button {
+            background-color: #b38b4c;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .custom-value-card button:hover {
+            background-color: #9c783e;
+        }
+
         /* Modal do PIX */
         .modal {
             display: none;
@@ -214,32 +338,19 @@
         <p>Sua presença já é o nosso maior presente! Mas se quiser ir além, criamos uma lista com a nossa cara para nos ajudar a começar a vida de casados. Agradecemos de coração por fazer parte deste momento!</p>
         
         <div id="gift-list">
-            <!-- Os itens de presente serão inseridos aqui pelo JavaScript -->
+            <!-- Os itens de presente e metas serão inseridos aqui pelo JavaScript -->
         </div>
 
-        <div class="custom-value-section">
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
-            <h3>Ou nos presenteie com outro valor</h3>
-            <input type="number" id="customValue" placeholder="Ex: 50.00" step="0.01" min="1.00">
-            <br>
-            <button onclick="presentearValorCustomizado()">Gerar QR Code</button>
+        <div class="custom-value-card">
+            <h2>Prefere outro valor?</h2>
+            <p class="custom-value-text">Sinta-se à vontade para nos presentear com qualquer quantia. O seu carinho é o mais importante!</p>
+            <div class="input-wrapper">
+                <span class="currency-symbol">R$</span>
+                <input type="number" id="customValue" placeholder="50,00" step="0.01" min="1.00">
+            </div>
+            <button onclick="presentearValorCustomizado()">Presentear com este valor</button>
         </div>
 
-    </div>
-
-    <!-- Mensagem de erro de autenticação, escondida por padrão -->
-    <div id="auth-error" style="display: none; background-color: #fff; padding: 20px 40px; border-radius: 15px; text-align: left; max-width: 550px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 5px solid #d9534f;">
-        <h1 style="font-family: 'Playfair Display', serif; color: #d9534f; font-size: 2em; text-align: center;">Ação Final Necessária</h1>
-        <p style="font-size: 1.1em; line-height: 1.6; text-align: center; margin-bottom: 20px;">Falta apenas um passo! O login anónimo precisa de ser ativado no seu painel Firebase.</p>
-        <ol style="list-style-type: decimal; list-style-position: inside; text-align: left; padding-left: 10px; font-size: 1em; line-height: 1.6;">
-            <li style="margin-bottom: 10px;">
-                <strong>Aceda diretamente à página correta</strong> clicando neste link:<br>
-                <a href="https://console.firebase.google.com/project/casamento-paulo-erislene/authentication/providers" target="_blank" style="color: #007bff; text-decoration: underline; font-weight: bold;">Ativar Métodos de Login</a>
-            </li>
-            <li style="margin-bottom: 10px;">Na lista que aparecer, clique em <strong>"Anónimo"</strong>.</li>
-            <li style="margin-bottom: 10px;">Ative o interruptor e clique em <strong>Guardar</strong>.</li>
-        </ol>
-        <p style="text-align: center; margin-top: 20px;">Depois de fazer isto, recarregue a página do seu site e tudo funcionará!</p>
     </div>
 
     <!-- Modal para exibir o QR Code -->
@@ -261,10 +372,10 @@
     <script type="module">
         // Importações do Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         
-        // Configuração do Firebase que você acabou de criar
+        // Configuração do Firebase que você criou
         const firebaseConfig = {
             apiKey: "AIzaSyBRyWEHW-1nc1HntdZB26vUj8zWbZTZc7o",
             authDomain: "casamento-paulo-erislene.firebaseapp.com",
@@ -275,7 +386,6 @@
             measurementId: "G-M31VC8Q7EK"
         };
         
-        // Um ID único para a sua aplicação, para não misturar com outras.
         const appId = 'casamento-paulo-erislene-2025';
 
         // Inicializa o Firebase
@@ -283,52 +393,72 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
         
-        // Autenticação anônima para permitir escrita no banco
-        signInAnonymously(auth).catch((error) => {
-            console.error("Erro na autenticação anônima:", error);
-            // Mostra a mensagem de erro de autenticação na página
-            document.querySelector('.container').style.display = 'none';
-            document.getElementById('auth-error').style.display = 'block';
-        });
+        signInAnonymously(auth).catch((error) => console.error("Erro na autenticação anônima:", error));
         
-        // ##################################################################
-        // #### DADOS DO PIX - EDITE SOMENTE AS 3 LINHAS ABAIXO ####
-        // ##################################################################
         const pixConfig = {
-            chave: "seu-email@provedor.com.br", // <-- COLOQUE QUALQUER CHAVE PIX VÁLIDA AQUI
-            nome: "Paulo Eduardo S.",      // <-- NOME DO BENEFICIÁRIO (até 25 caracteres)
-            cidade: "SAO PAULO"               // <-- CIDADE DO BENEFICIÁRIO (sem acentos)
+            chave: "seu-email@provedor.com.br", 
+            nome: "Paulo Eduardo S.",      
+            cidade: "SAO PAULO"               
         };
-        // ##################################################################
 
-
-        // ##################################################################
-        // #### LISTA DE PRESENTES - ADICIONE OU EDITE OS ITENS AQUI ####
-        // ##################################################################
-        const listaDePresentes = [
-            { nome: "Para o noivo pagar o barbeiro e não assustar no altar.", valor: 50.00, imagem: "https://images.pexels.com/photos/3998414/pexels-photo-3998414.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1" },
-            { nome: "Para a noiva garantir o penteado dos sonhos (e não surtar no dia).", valor: 60.00, imagem: "https://images.pexels.com/photos/3014856/pexels-photo-3014856.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1" },
-            { nome: "Para comprar a gravata do noivo que ainda não decidiu a cor.", valor: 70.00, imagem: "https://images.pexels.com/photos/164893/pexels-photo-164893.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1" },
-            { nome: "Para garantir os docinhos que você vai comer escondido.", valor: 80.00, imagem: "https://images.pexels.com/photos/2144200/pexels-photo-2144200.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1" },
-            { nome: "Para ajudar a noiva a terminar de pagar o vestido (spoiler: tá lindo!).", valor: 90.00, imagem: "https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1" },
-            { nome: "Para contribuir com a lua de mel (porque eles merecem fugir um pouco).", valor: 100.00, imagem: "https://images.pexels.com/photos/3823495/pexels-photo-3823495.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1" },
-            { nome: "Para o casal brindar com espumante e esquecer o boleto da decoração.", valor: 120.00, imagem: "https://images.pexels.com/photos/1128797/pexels-photo-1128797.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1" },
-            { nome: "Para ajudar no aluguel do salão (e não casar na praça rs).", valor: 150.00, imagem: "https://images.pexels.com/photos/169198/pexels-photo-169198.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1" },
-            { nome: "Para garantir que a pista de dança tenha som (pra você dançar).", valor: 200.00, imagem: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1" },
-            { nome: "Para os noivos respirarem aliviados com mais uma conta paga!", valor: 300.00, imagem: "https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1" }
+        // LISTA DE PRESENTES E METAS
+        const listaDeItens = [
+            { nome: "Para o noivo pagar o barbeiro e não assustar no altar.", valor: 50.00, imagem: "https://images.pexels.com/photos/3998414/pexels-photo-3998414.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1", type: 'item' },
+            { nome: "Para a noiva garantir o penteado dos sonhos (e não surtar no dia).", valor: 60.00, imagem: "https://images.pexels.com/photos/3014856/pexels-photo-3014856.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1", type: 'item' },
+            { nome: "Para comprar a gravata do noivo que ainda não decidiu a cor.", valor: 70.00, imagem: "https://images.pexels.com/photos/164893/pexels-photo-164893.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1", type: 'item' },
+            { nome: "Para garantir os docinhos que você vai comer escondido.", valor: 80.00, imagem: "https://images.pexels.com/photos/2144200/pexels-photo-2144200.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1", type: 'item' },
+            { nome: "Para ajudar a noiva a terminar de pagar o vestido (spoiler: tá lindo!).", valor: 90.00, imagem: "https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1", type: 'item' },
+            { nome: "Para contribuir com a lua de mel (porque eles merecem fugir um pouco).", valor: 100.00, imagem: "https://images.pexels.com/photos/3823495/pexels-photo-3823495.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1", type: 'item' },
+            { nome: "Para o casal brindar com espumante e esquecer o boleto da decoração.", valor: 120.00, imagem: "https://images.pexels.com/photos/1128797/pexels-photo-1128797.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1", type: 'item' },
+            { nome: "Para ajudar no aluguel do salão (e não casar na praça rs).", valor: 150.00, imagem: "https://images.pexels.com/photos/169198/pexels-photo-169198.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1", type: 'item' },
+            // METAS DINÂMICAS
+            { id: 'pista-de-danca', nome: "Garantir a festa com som na pista de dança!", meta: 200.00, minimo: 20.00, imagem: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1", type: 'goal' },
+            { id: 'contas-a-pagar', nome: "Ajudar os noivos a respirarem aliviados com as contas!", meta: 300.00, minimo: 30.00, imagem: "https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1", type: 'goal' }
         ];
-        // ##################################################################
         
         const modal = document.getElementById('pix-modal');
 
-        // Adiciona as funções ao escopo global para serem acessíveis pelo HTML
-        window.selecionarPresente = (nome, valor) => {
+        function formatCurrency(value) {
+            return `R$ ${value.toFixed(2).replace('.', ',')}`;
+        }
+
+        // FUNÇÕES GLOBAIS
+        window.abrirModalPix = (nome, valor) => {
             document.getElementById('modal-gift-name').innerText = nome;
-            document.getElementById('modal-gift-value').innerText = `R$ ${valor.toFixed(2).replace('.', ',')}`;
+            document.getElementById('modal-gift-value').innerText = formatCurrency(valor);
             gerarCodigoPix(valor);
             salvarContribuicao(nome, valor);
             modal.style.display = 'flex';
         }
+        
+        window.contribuirParaMeta = (id, nome, minimo, meta) => {
+            const input = document.getElementById(`input-${id}`);
+            const valor = parseFloat(input.value);
+            
+            if (!valor || valor < minimo) {
+                alert(`Por favor, contribua com pelo menos ${formatCurrency(minimo)}.`);
+                input.value = minimo;
+                input.focus();
+                return;
+            }
+            
+            const totalArrecadado = parseFloat(document.getElementById(`progress-${id}`).dataset.total || 0);
+            if(valor > (meta - totalArrecadado)) {
+                alert(`O valor máximo para esta meta é ${formatCurrency(meta - totalArrecadado)}.`);
+                input.value = (meta - totalArrecadado).toFixed(2);
+                return;
+            }
+
+            abrirModalPix(nome, valor);
+        };
+
+        window.contribuirComRestante = (id, nome, meta) => {
+             const totalArrecadado = parseFloat(document.getElementById(`progress-${id}`).dataset.total || 0);
+             const valorRestante = meta - totalArrecadado;
+             if(valorRestante > 0) {
+                 abrirModalPix(nome, valorRestante);
+             }
+        };
 
         window.presentearValorCustomizado = () => {
             const valorInput = document.getElementById('customValue');
@@ -338,58 +468,109 @@
                 valorInput.focus();
                 return;
             }
-            const nome = "Um presente especial (valor customizado)";
-            document.getElementById('modal-gift-name').innerText = nome;
-            document.getElementById('modal-gift-value').innerText = `R$ ${valor.toFixed(2).replace('.', ',')}`;
-            gerarCodigoPix(valor);
-            salvarContribuicao(nome, valor);
-            modal.style.display = 'flex';
+            abrirModalPix("Um presente especial do coração", valor);
         }
 
-        window.fecharModal = () => {
-            modal.style.display = 'none';
-        }
+        window.fecharModal = () => { modal.style.display = 'none'; }
 
         window.copiarCodigo = (elemento) => {
-            const codigoPix = elemento.innerText;
-            navigator.clipboard.writeText(codigoPix).then(() => {
+            navigator.clipboard.writeText(elemento.innerText).then(() => {
                 const feedback = document.getElementById('copyFeedback');
                 feedback.style.display = 'block';
                 setTimeout(() => { feedback.style.display = 'none'; }, 2000);
             });
         }
 
-        // Função para salvar a contribuição no Firestore
+        // LÓGICA DO FIREBASE E RENDERIZAÇÃO
         async function salvarContribuicao(nome, valor) {
             try {
-                const docRef = await addDoc(collection(db, `/artifacts/${appId}/public/data/presentes`), {
+                await addDoc(collection(db, `/artifacts/${appId}/public/data/presentes`), {
                     nome: nome,
                     valor: valor,
                     data: serverTimestamp() 
                 });
-                console.log("Contribuição salva com ID: ", docRef.id);
-            } catch (e) {
-                console.error("Erro ao adicionar documento: ", e);
-            }
+            } catch (e) { console.error("Erro ao adicionar documento: ", e); }
         }
 
-        function carregarPresentes() {
+        function carregarItens() {
             const container = document.getElementById('gift-list');
-            listaDePresentes.forEach(presente => {
+            listaDeItens.forEach(item => {
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'gift-item';
-                itemDiv.innerHTML = `
-                    <img src="${presente.imagem}" alt="${presente.nome}">
-                    <div class="gift-info">
-                        <h3>${presente.nome}</h3>
-                        <p class="price">R$ ${presente.valor.toFixed(2).replace('.', ',')}</p>
-                    </div>
-                    <button onclick="selecionarPresente('${presente.nome.replace(/'/g, "\\'")}', ${presente.valor})">Presentear</button>
-                `;
+
+                if (item.type === 'item') {
+                    itemDiv.className = 'gift-item';
+                    itemDiv.innerHTML = `
+                        <img src="${item.imagem}" alt="${item.nome}">
+                        <div class="gift-info">
+                            <h3>${item.nome}</h3>
+                            <p class="price">${formatCurrency(item.valor)}</p>
+                        </div>
+                        <button onclick="abrirModalPix('${item.nome.replace(/'/g, "\\'")}', ${item.valor})">Presentear</button>
+                    `;
+                } else if (item.type === 'goal') {
+                    itemDiv.className = 'goal-item';
+                    itemDiv.id = `goal-container-${item.id}`;
+                    itemDiv.innerHTML = `
+                        <div class="goal-header">
+                            <img src="${item.imagem}" alt="${item.nome}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 20px;">
+                            <h3>${item.nome}</h3>
+                        </div>
+                        <div class="goal-progress-bar">
+                            <div id="progress-${item.id}" data-total="0"></div>
+                        </div>
+                        <p class="goal-progress-text" id="progress-text-${item.id}">
+                            Arrecadado R$ 0,00 de ${formatCurrency(item.meta)}
+                        </p>
+                        <div class="goal-actions" id="actions-${item.id}">
+                            <input type="number" id="input-${item.id}" placeholder="${formatCurrency(item.minimo)}" step="0.01" min="${item.minimo}" value="${item.minimo}">
+                            <button onclick="contribuirParaMeta('${item.id}', '${item.nome.replace(/'/g, "\\'")}', ${item.minimo}, ${item.meta})">Contribuir</button>
+                             <button onclick="contribuirComRestante('${item.id}', '${item.nome.replace(/'/g, "\\'")}', ${item.meta})">Quitar Meta!</button>
+                        </div>
+                    `;
+                }
                 container.appendChild(itemDiv);
             });
         }
+        
+        function iniciarMonitoramentoDeMetas() {
+            const q = query(collection(db, `/artifacts/${appId}/public/data/presentes`));
+            onSnapshot(q, (querySnapshot) => {
+                const metas = listaDeItens.filter(item => item.type === 'goal');
+                
+                // Zera os totais
+                const totais = {};
+                metas.forEach(meta => totais[meta.nome] = 0);
 
+                // Calcula os novos totais
+                querySnapshot.forEach((doc) => {
+                    const contribuicao = doc.data();
+                    if(totais.hasOwnProperty(contribuicao.nome)) {
+                        totais[contribuicao.nome] += contribuicao.valor;
+                    }
+                });
+
+                // Atualiza a UI
+                metas.forEach(meta => {
+                    const totalArrecadado = totais[meta.nome];
+                    const percentual = Math.min((totalArrecadado / meta.meta) * 100, 100);
+                    
+                    const progressBar = document.getElementById(`progress-${meta.id}`);
+                    const progressText = document.getElementById(`progress-text-${meta.id}`);
+                    const actionsContainer = document.getElementById(`actions-${meta.id}`);
+                    const goalContainer = document.getElementById(`goal-container-${meta.id}`);
+                    
+                    if(progressBar) progressBar.style.width = `${percentual}%`;
+                    if(progressBar) progressBar.dataset.total = totalArrecadado;
+                    if(progressText) progressText.innerText = `Arrecadado ${formatCurrency(totalArrecadado)} de ${formatCurrency(meta.meta)}`;
+
+                    if(totalArrecadado >= meta.meta) {
+                        if(actionsContainer) actionsContainer.innerHTML = `<div class="goal-complete">Meta Atingida! Muito obrigado! 🎉</div>`;
+                    }
+                });
+            });
+        }
+
+        // LÓGICA DO PIX (Não precisa editar)
         function gerarPayload(chave, nome, cidade, valor) {
             cidade = cidade.toUpperCase().replace(/[^A-Z ]/g, '').substring(0, 15);
             nome = nome.substring(0, 25);
@@ -398,7 +579,6 @@
             let payload = '000201' + id('26', '0014br.gov.bcb.pix' + id('01', chave)) + '52040000' + '5303986' + id('54', valor) + '5802BR' + id('59', nome) + id('60', cidade) + '62070503***' + '6304';
             return payload + calcularCRC16(payload);
         }
-
         function calcularCRC16(payload) {
             let crc = 0xFFFF;
             for (let i = 0; i < payload.length; i++) {
@@ -409,7 +589,6 @@
             }
             return crc.toString(16).toUpperCase().padStart(4, '0');
         }
-        
         function gerarCodigoPix(valor) {
             const payload = gerarPayload(pixConfig.chave, pixConfig.nome, pixConfig.cidade, valor);
             document.getElementById('qrcode').innerHTML = ""; 
@@ -417,7 +596,11 @@
             document.getElementById('pix-code').innerText = payload;
         }
         
-        window.onload = carregarPresentes;
+        // INICIALIZAÇÃO
+        window.onload = () => {
+            carregarItens();
+            iniciarMonitoramentoDeMetas();
+        };
         window.onclick = function(event) {
             if (event.target == modal) {
                 fecharModal();
@@ -426,5 +609,4 @@
     </script>
 </body>
 </html>
-
 
