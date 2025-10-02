@@ -35,7 +35,7 @@
                     </thead>
                     <tbody id="lista-contribuicoes" class="text-gray-700">
                         <tr>
-                            <td colspan="3" class="text-center py-10" id="loading">Carregando presentes...</td>
+                            <td colspan="3" class="text-center py-10" id="loading">A carregar presentes...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -57,21 +57,32 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        
+        // Configuração do Firebase que você criou
+        const firebaseConfig = {
+            apiKey: "AIzaSyBRyWEHW-1nc1HntdZB26vUj8zWbZTZc7o",
+            authDomain: "casamento-paulo-erislene.firebaseapp.com",
+            projectId: "casamento-paulo-erislene",
+            storageBucket: "casamento-paulo-erislene.firebasestorage.app",
+            messagingSenderId: "499973986307",
+            appId: "1:499973986307:web:13ddac45d112a199385636",
+            measurementId: "G-M31VC8Q7EK"
+        };
 
+        // Use o mesmo ID único da outra página.
+        const appId = 'casamento-paulo-erislene-2025';
+        
         // ######################################################
         // #### SENHA DO PAINEL - EDITE A SENHA AQUI ####
         // ######################################################
         const PAINEL_SENHA = "noivos2025";
         // ######################################################
 
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
         
-        let unsubscribe = null; // Para parar de ouvir as atualizações quando necessário
+        let unsubscribe = null;
 
         window.checkPassword = () => {
             const input = document.getElementById('password-input');
@@ -98,7 +109,7 @@
                 let total = 0;
 
                 if (querySnapshot.empty) {
-                    loading.parentElement.innerHTML = '<td colspan="3" class="text-center py-10">Nenhum presente recebido ainda.</td>';
+                    lista.innerHTML = '<tr><td colspan="3" class="text-center py-10">Nenhum presente recebido ainda.</td></tr>';
                 } else {
                      querySnapshot.forEach((doc) => {
                         const presente = doc.data();
@@ -122,3 +133,4 @@
     </script>
 </body>
 </html>
+
