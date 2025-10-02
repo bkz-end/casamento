@@ -227,6 +227,21 @@
 
     </div>
 
+    <!-- Mensagem de erro de autenticação, escondida por padrão -->
+    <div id="auth-error" style="display: none; background-color: #fff; padding: 20px 40px; border-radius: 15px; text-align: left; max-width: 550px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 5px solid #d9534f;">
+        <h1 style="font-family: 'Playfair Display', serif; color: #d9534f; font-size: 2em; text-align: center;">Ação Final Necessária</h1>
+        <p style="font-size: 1.1em; line-height: 1.6; text-align: center; margin-bottom: 20px;">Falta apenas um passo! O login anónimo precisa de ser ativado no seu painel Firebase.</p>
+        <ol style="list-style-type: decimal; list-style-position: inside; text-align: left; padding-left: 10px; font-size: 1em; line-height: 1.6;">
+            <li style="margin-bottom: 10px;">
+                <strong>Aceda diretamente à página correta</strong> clicando neste link:<br>
+                <a href="https://console.firebase.google.com/project/casamento-paulo-erislene/authentication/providers" target="_blank" style="color: #007bff; text-decoration: underline; font-weight: bold;">Ativar Métodos de Login</a>
+            </li>
+            <li style="margin-bottom: 10px;">Na lista que aparecer, clique em <strong>"Anónimo"</strong>.</li>
+            <li style="margin-bottom: 10px;">Ative o interruptor e clique em <strong>Guardar</strong>.</li>
+        </ol>
+        <p style="text-align: center; margin-top: 20px;">Depois de fazer isto, recarregue a página do seu site e tudo funcionará!</p>
+    </div>
+
     <!-- Modal para exibir o QR Code -->
     <div id="pix-modal" class="modal">
         <div class="modal-content">
@@ -249,9 +264,19 @@
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         
-        // Configuração do Firebase (fornecida pelo ambiente)
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // Configuração do Firebase que você acabou de criar
+        const firebaseConfig = {
+            apiKey: "AIzaSyBRyWEHW-1nc1HntdZB26vUj8zWbZTZc7o",
+            authDomain: "casamento-paulo-erislene.firebaseapp.com",
+            projectId: "casamento-paulo-erislene",
+            storageBucket: "casamento-paulo-erislene.firebasestorage.app",
+            messagingSenderId: "499973986307",
+            appId: "1:499973986307:web:13ddac45d112a199385636",
+            measurementId: "G-M31VC8Q7EK"
+        };
+        
+        // Um ID único para a sua aplicação, para não misturar com outras.
+        const appId = 'casamento-paulo-erislene-2025';
 
         // Inicializa o Firebase
         const app = initializeApp(firebaseConfig);
@@ -261,6 +286,9 @@
         // Autenticação anônima para permitir escrita no banco
         signInAnonymously(auth).catch((error) => {
             console.error("Erro na autenticação anônima:", error);
+            // Mostra a mensagem de erro de autenticação na página
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('auth-error').style.display = 'block';
         });
         
         // ##################################################################
@@ -398,4 +426,5 @@
     </script>
 </body>
 </html>
+
 
