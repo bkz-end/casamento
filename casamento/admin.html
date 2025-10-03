@@ -22,6 +22,18 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -66,7 +78,7 @@
         <div class="mt-12 card border-t-4 border-red-500">
             <h2 class="text-xl font-bold text-red-700">Zona de Perigo</h2>
             <p class="text-gray-600 mt-2 mb-4">Esta ação é irreversível. Ela apagará TODOS os registos de presentes da base de dados. Use isto para limpar os dados de teste antes de partilhar o link com os convidados.</p>
-            <button onclick="resetarDados()" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">Resetar Todos os Dados</button>
+            <button onclick="abrirModalReset()" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">Resetar Todos os Dados</button>
         </div>
     </div>
     
@@ -77,6 +89,18 @@
             <input type="password" id="password-input" class="border rounded-lg p-3 w-full mb-4 text-center" placeholder="******">
             <button onclick="checkPassword()" class="bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 w-full transition-colors">Entrar</button>
             <p id="error-message" class="text-red-500 mt-3 hidden">Senha incorreta. Tente novamente.</p>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação para Resetar -->
+    <div id="reset-modal" class="modal-overlay hidden">
+        <div class="bg-white p-8 rounded-lg shadow-xl text-center w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-4 text-red-700">Tem a certeza?</h2>
+            <p id="reset-modal-text" class="mb-6 text-gray-600">Esta ação apagará permanentemente todos os dados dos presentes. Não poderá reverter esta ação. Para confirmar, clique em "Confirmar Reset".</p>
+            <div id="reset-modal-buttons" class="flex justify-center gap-4">
+                <button onclick="fecharModalReset()" class="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400">Cancelar</button>
+                <button onclick="confirmarReset()" class="bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700">Confirmar Reset</button>
+            </div>
         </div>
     </div>
 
@@ -151,13 +175,13 @@
                 
                 // Atualiza a lista
                 allContributions.forEach(presente => {
-                    const dataFormatada = presente.data ? new Date(presente.data.seconds * 1000).toLocaleDateString('pt-BR') : 'N/A';
+                    const dataFormatada = presente.data ? new Date(presente.data.seconds * 1000).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'N/A';
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'flex justify-between items-center border-b pb-2';
                     itemDiv.innerHTML = `
                         <div>
                             <p class="font-semibold">${presente.nome}</p>
-                            <p class="text-sm text-gray-500">${dataFormatada}</p>
+                            <p class="text-sm text-gray-500">${dataFormatada.replace(',', ' -')}</p>
                         </div>
                         <p class="font-bold text-lg text-green-600">R$ ${presente.valor.toFixed(2).replace('.', ',')}</p>
                     `;
@@ -216,29 +240,43 @@
             }
         }
 
-        window.resetarDados = async () => {
-            const confirmacao = prompt("Tem a certeza ABSOLUTA de que quer apagar todos os dados? Esta ação não pode ser desfeita. Digite 'SIM' para confirmar.");
-            if (confirmacao !== "SIM") {
-                alert("Operação cancelada.");
-                return;
-            }
+        // --- LÓGICA PARA RESETAR DADOS ---
+        const resetModal = document.getElementById('reset-modal');
+        
+        window.abrirModalReset = () => {
+            resetModal.classList.remove('hidden');
+        }
 
-            alert("A apagar todos os dados... Por favor, aguarde.");
+        window.fecharModalReset = () => {
+            resetModal.classList.add('hidden');
+        }
+
+        window.confirmarReset = async () => {
+            const modalText = document.getElementById('reset-modal-text');
+            const modalButtons = document.getElementById('reset-modal-buttons');
+            
+            modalText.innerText = "A apagar todos os dados... Por favor, aguarde.";
+            modalButtons.classList.add('hidden');
+
             const presentesRef = collection(db, `/artifacts/${appId}/public/data/presentes`);
             const querySnapshot = await getDocs(presentesRef);
             
-            if(querySnapshot.empty) {
-                alert("Não há dados para apagar.");
-                return;
+            if (querySnapshot.empty) {
+                modalText.innerText = "Não há dados para apagar.";
+            } else {
+                const batch = writeBatch(db);
+                querySnapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+                await batch.commit();
+                modalText.innerText = "Todos os dados foram resetados com sucesso!";
             }
-
-            const batch = writeBatch(db);
-            querySnapshot.forEach(doc => {
-                batch.delete(doc.ref);
-            });
-
-            await batch.commit();
-            alert("Todos os dados foram resetados com sucesso!");
+            
+            setTimeout(() => {
+                fecharModalReset();
+                modalText.innerText = "Esta ação apagará permanentemente todos os dados dos presentes. Não poderá reverter esta ação. Para confirmar, clique em 'Confirmar Reset'.";
+                modalButtons.classList.remove('hidden');
+            }, 3000);
         }
 
     </script>
