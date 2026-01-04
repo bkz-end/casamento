@@ -2,186 +2,1074 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
   <meta name="description" content="Lista de presentes do casamento de Paulo Eduardo & Erislene — presenteie com Pix, mensagens e veja o progresso em tempo real." />
-  <title>Paulo & Erislene — Lista de Presentes (Upgrade Insano)</title>
+  <title>Paulo & Erislene — Lista de Presentes (Mobile Premium)</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Libs: QRCode (qrcodejs) + confetti -->
+  <!-- Libs -->
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js" defer></script>
 
   <style>
-    /* ===== Palette & vars ===== */
-    :root{
-      --bg:#f3efe9; --panel:#ffffff; --muted:#666; --accent:#b38b4c; --accent-2:#9c783e; --glass:rgba(255,255,255,0.6);
-      --radius:14px; --max-width:1100px; --text:#1f1f1f;
-    }
-    :root[data-theme='dark']{ --bg:#0c0d11; --panel:rgba(18,18,20,0.92); --muted:#9aa0a6; --accent:#d9b86a; --text:#ececec; }
-
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(180deg,var(--bg),#efe7db 120%), url('https://images.unsplash.com/photo-1523438885262-a515b116f181?auto=format&fit=crop&w=1600&q=60') center/cover fixed no-repeat; color:var(--text);-webkit-font-smoothing:antialiased;display:flex;justify-content:center;padding:28px;
+    /* ===== RESET & BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* Container */
-    .shell{width:100%;max-width:var(--max-width);}
-    header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-    .brand{display:flex;flex-direction:column}
-    .brand h1{font-family:'Playfair Display',serif;margin:0;color:var(--accent);font-size:1.7rem}
-    .brand p{margin:2px 0 0 0;color:var(--muted)}
+    :root {
+      /* Light theme - Romantic Gold */
+      --bg-primary: #fef9f5;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.92);
+      --bg-overlay: rgba(0, 0, 0, 0.4);
+      --bg-gradient: linear-gradient(135deg, #fff9f0 0%, #fef5e7 100%);
+      
+      --text-primary: #2c1810;
+      --text-secondary: #6b4f3a;
+      --text-muted: #9e8a7a;
+      
+      --accent-gold: #d4af37;
+      --accent-gold-light: #f1e6d3;
+      --accent-gold-dark: #b89521;
+      --accent-rose: #e8c8c8;
+      
+      --border-light: rgba(212, 175, 55, 0.15);
+      --border-medium: rgba(212, 175, 55, 0.3);
+      
+      --shadow-sm: 0 4px 12px rgba(212, 175, 55, 0.08);
+      --shadow-md: 0 8px 32px rgba(212, 175, 55, 0.12);
+      --shadow-lg: 0 20px 60px rgba(212, 175, 55, 0.15);
+      
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --radius-xl: 40px;
+      
+      --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
 
-    .top-actions{display:flex;align-items:center;gap:10px}
-    .countdown{font-weight:700;color:var(--muted)}
-    .icon-btn{background:transparent;border:0;padding:8px;border-radius:10px;cursor:pointer;font-size:1.15rem}
+    [data-theme="dark"] {
+      --bg-primary: #0f0b07;
+      --bg-secondary: #1a140e;
+      --bg-card: rgba(26, 20, 14, 0.92);
+      --bg-overlay: rgba(0, 0, 0, 0.7);
+      --bg-gradient: linear-gradient(135deg, #1a140e 0%, #0f0b07 100%);
+      
+      --text-primary: #f5f0e8;
+      --text-secondary: #d9c8b0;
+      --text-muted: #9e8a7a;
+      
+      --accent-gold: #e6c158;
+      --accent-gold-light: #2a2315;
+      --accent-gold-dark: #d4af37;
+      --accent-rose: #8a5d5d;
+      
+      --border-light: rgba(230, 193, 88, 0.15);
+      --border-medium: rgba(230, 193, 88, 0.3);
+      
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
 
-    main.container{background:var(--panel);border-radius:18px;padding:22px;border-top:6px solid var(--accent);box-shadow:0 14px 40px rgba(0,0,0,0.08)}
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
 
-    .intro{color:var(--muted);margin-bottom:12px}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      background: var(--bg-gradient);
+    }
 
-    /* Grid */
-    .layout{display:grid;grid-template-columns:1fr 380px;gap:18px}
-    @media(max-width:980px){.layout{grid-template-columns:1fr}}
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(232, 200, 200, 0.03) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-    /* Gift list */
-    .gift-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
-    .card{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.9),#fff);border:1px solid rgba(0,0,0,0.03);transition:transform .15s ease,box-shadow .15s ease}
-    .card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,0.06)}
-    .thumb{width:72px;height:72px;border-radius:10px;object-fit:cover}
-    .info h3{margin:0;font-size:0.98rem}
-    .info p{margin:6px 0 0 0;font-weight:700;color:var(--accent)}
-    .actions{display:flex;flex-direction:column;gap:8px}
-    .btn{padding:10px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
-    .primary{background:var(--accent);color:#fff}
-    .secondary{background:transparent;border:1px solid rgba(0,0,0,0.06)}
+    /* ===== TYPOGRAPHY ===== */
+    h1, h2, h3, h4, .font-serif {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
 
-    /* Side panel */
-    .side{position:relative;background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(255,255,255,0.98));padding:14px;border-radius:12px;border:1px solid rgba(0,0,0,0.03)}
-    .side h2{margin-top:0;font-family:'Playfair Display',serif;color:var(--accent);font-size:1.2rem}
-    .custom-row{display:flex;gap:8px;align-items:center}
-    .input-wrapper{position:relative;width:100%}
-    .input-wrapper .currency{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:700}
-    .input{padding:12px 14px 12px 44px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);font-weight:700;text-align:center}
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.2;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-    /* Modal */
-    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:1200}
-    .modal-panel{width:100%;max-width:520px;background:var(--panel);padding:18px;border-radius:12px;text-align:center}
-    .modal-close{position:absolute;right:18px;top:14px;border:0;background:transparent;cursor:pointer}
-    #qrcode{margin:10px auto;background:transparent;padding:10px;border-radius:10px}
-    .pix-code{font-family:monospace;border-radius:8px;padding:10px;border:1px dashed rgba(0,0,0,0.06);word-break:break-all}
+    h2 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
 
-    /* Small UI */
-    .metrics{display:flex;gap:12px;margin-top:6px;align-items:center}
-    .metric{background:linear-gradient(180deg,rgba(255,255,255,0.95),#fff);padding:8px;border-radius:10px;text-align:center;min-width:110px}
-    .metric strong{display:block;font-size:1.05rem}
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background: var(--accent-gold);
+      border-radius: 2px;
+    }
 
-    /* Toast & spinner */
-    .toast{position:fixed;right:18px;bottom:18px;padding:12px 14px;border-radius:10px;background:var(--panel);box-shadow:0 10px 30px rgba(0,0,0,0.12);min-width:200px;border-left:6px solid var(--accent)}
-    .spinner{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.18);z-index:1300}
+    p {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
 
-    /* Fancy leaf */
-    .fancy{font-family:'Playfair Display',serif;color:var(--accent);font-size:1.05rem}
+    .text-muted {
+      color: var(--text-muted) !important;
+    }
 
-    /* Print styles */
-    @media print{body *{visibility:hidden} .container, .container *{visibility:visible} .container{position:absolute;left:0;top:0}}
+    /* ===== LAYOUT ===== */
+    .container {
+      max-width: 100%;
+      padding: 0 clamp(1rem, 4vw, 2rem);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
 
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 4rem;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      padding: clamp(1.5rem, 5vw, 2.5rem) 0 1.5rem;
+      position: sticky;
+      top: 0;
+      background: var(--bg-primary);
+      backdrop-filter: blur(20px);
+      z-index: 100;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .couple-title {
+      text-align: center;
+      animation: fadeUp 0.8s ease-out;
+    }
+
+    .couple-title h1 {
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .couple-title h1::before {
+      content: '❤';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.5rem;
+      opacity: 0.6;
+    }
+
+    .subtitle {
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      animation: fadeUp 0.8s ease-out 0.2s both;
+    }
+
+    .header-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: fadeUp 0.8s ease-out 0.4s both;
+    }
+
+    .countdown {
+      display: flex;
+      gap: 0.5rem;
+      background: var(--bg-card);
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+    }
+
+    .countdown-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 50px;
+    }
+
+    .countdown-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      line-height: 1;
+    }
+
+    .countdown-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.25rem;
+    }
+
+    .theme-toggle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(30deg) scale(1.1);
+      border-color: var(--accent-gold);
+    }
+
+    /* ===== GIFT GRID ===== */
+    .gifts-section {
+      padding: 2rem 0;
+    }
+
+    .gift-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .gift-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .gift-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      border: 1px solid var(--border-light);
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.6s ease-out backwards;
+      animation-delay: calc(var(--order) * 0.1s);
+    }
+
+    .gift-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--accent-gold), var(--accent-rose));
+      opacity: 0;
+      transition: var(--transition-smooth);
+    }
+
+    .gift-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-medium);
+    }
+
+    .gift-card:hover::before {
+      opacity: 1;
+    }
+
+    .gift-image {
+      width: 100%;
+      height: 180px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      margin-bottom: 1.25rem;
+      border: 1px solid var(--border-light);
+    }
+
+    .gift-title {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .gift-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin-bottom: 1.25rem;
+    }
+
+    .gift-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      padding: 0.875rem 1.5rem;
+      border-radius: var(--radius-md);
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+
+    .btn:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+      color: white;
+      flex: 1;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--accent-gold-light);
+      color: var(--accent-gold);
+      border: 1px solid var(--border-medium);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-gold);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-icon {
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+    }
+
+    /* ===== SIDEBAR (Now bottom sheet on mobile) ===== */
+    .action-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      padding: 1.5rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom));
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      transform: translateY(100%);
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border-top: 1px solid var(--border-light);
+    }
+
+    .action-panel.active {
+      transform: translateY(0);
+    }
+
+    .action-panel-handle {
+      width: 40px;
+      height: 4px;
+      background: var(--border-medium);
+      border-radius: 2px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      padding: 1.25rem;
+      border-radius: var(--radius-md);
+      text-align: center;
+      border: 1px solid var(--border-light);
+    }
+
+    .metric-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .custom-amount {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border-light);
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .currency-symbol {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+    }
+
+    .amount-input {
+      width: 100%;
+      padding: 1rem 1rem 1rem 3rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: transparent;
+      border: 2px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      text-align: center;
+      transition: var(--transition-smooth);
+    }
+
+    .amount-input:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    }
+
+    .quick-amounts {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      padding: 0.5rem 0;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .quick-amount {
+      flex: 0 0 auto;
+      padding: 0.75rem 1.25rem;
+      background: var(--accent-gold-light);
+      color: var(--accent-gold);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .quick-amount:hover {
+      background: var(--accent-gold);
+      color: white;
+    }
+
+    /* ===== MESSAGES SECTION ===== */
+    .messages-section {
+      padding: 2rem 0;
+      margin-top: 2rem;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .message-form {
+      background: var(--bg-card);
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border-light);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 1rem;
+      background: transparent;
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      transition: var(--transition-smooth);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    }
+
+    .messages-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+
+    .message-card {
+      background: var(--bg-card);
+      padding: 1.25rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .message-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .message-author {
+      font-weight: 600;
+      color: var(--accent-gold);
+    }
+
+    .message-time {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .message-content {
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg-overlay);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition-smooth);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-container {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: translateY(20px) scale(0.95);
+      transition: var(--transition-smooth);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal-overlay.active .modal-container {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-amount {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin: 1rem 0;
+    }
+
+    .qrcode-container {
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--radius-md);
+      display: flex;
+      justify-content: center;
+      margin: 1.5rem 0;
+      border: 1px solid var(--border-light);
+    }
+
+    .pix-code {
+      background: var(--bg-card);
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      font-family: monospace;
+      word-break: break-all;
+      margin: 1rem 0;
+      border: 1px solid var(--border-light);
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .close-modal:hover {
+      transform: rotate(90deg);
+      background: var(--accent-gold);
+      color: white;
+    }
+
+    /* ===== FLOATING ACTION BUTTON ===== */
+    .fab-container {
+      position: fixed;
+      bottom: calc(1.5rem + env(safe-area-inset-bottom));
+      right: 1.5rem;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+
+    .fab {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+      transition: var(--transition-bounce);
+      font-size: 1.5rem;
+    }
+
+    .fab:hover {
+      transform: scale(1.1) rotate(10deg);
+    }
+
+    .fab-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transform: scale(0);
+      transform-origin: bottom right;
+      transition: var(--transition-bounce);
+    }
+
+    .fab-menu.active {
+      transform: scale(1);
+    }
+
+    .fab-item {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .fab-item:hover {
+      background: var(--accent-gold);
+      color: white;
+      transform: translateX(-5px);
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 1;
+      }
+      20% {
+        transform: scale(25, 25);
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(40, 40);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    /* ===== UTILITIES ===== */
+    .hidden {
+      display: none !important;
+    }
+
+    .visible {
+      display: block !important;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .mb-1 { margin-bottom: 0.5rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .mb-3 { margin-bottom: 1.5rem; }
+    .mb-4 { margin-bottom: 2rem; }
+
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mt-3 { margin-top: 1.5rem; }
+    .mt-4 { margin-top: 2rem; }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent-gold);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-gold-dark);
+    }
+
+    /* ===== LOADING ===== */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid var(--border-light);
+      border-top-color: var(--accent-gold);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <header class="top">
-      <div class="brand">
-        <h1>Paulo Eduardo & Erislene</h1>
-        <p class="subtitle">Nossa história começa com um sim — e com o carinho de vocês.</p>
-      </div>
-      <div class="top-actions">
-        <div id="countdown" class="countdown" aria-live="polite">Carregando...</div>
-        <button id="themeToggle" class="icon-btn" aria-pressed="false" title="Alternar tema">🌗</button>
+  <div class="page-wrapper">
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="couple-title">
+            <h1>Paulo Eduardo & Erislene</h1>
+            <p class="subtitle">Sua presença é nosso maior presente. Cada gesto de carinho nos ajuda a construir nossos sonhos.</p>
+          </div>
+          
+          <div class="header-meta">
+            <div class="countdown">
+              <div class="countdown-item">
+                <span id="days" class="countdown-value">00</span>
+                <span class="countdown-label">Dias</span>
+              </div>
+              <div class="countdown-item">
+                <span id="hours" class="countdown-value">00</span>
+                <span class="countdown-label">Horas</span>
+              </div>
+              <div class="countdown-item">
+                <span id="minutes" class="countdown-value">00</span>
+                <span class="countdown-label">Min</span>
+              </div>
+            </div>
+            
+            <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+              <span>🌙</span>
+            </button>
+          </div>
+        </div>
       </div>
     </header>
 
-    <main class="container" id="container">
-      <div class="intro fancy">Sua presença já é o presente mais valioso. Se escolher dar algo a mais, saiba que vamos guardar cada gesto com carinho.</div>
+    <!-- Main Content -->
+    <main class="container">
+      <!-- Gifts Section -->
+      <section class="gifts-section">
+        <h2>Nossa Lista de Presentes</h2>
+        <p class="text-muted">Escolha um presente especial para nos presentear. Cada contribuição é uma benção em nossa nova jornada.</p>
+        
+        <div class="gift-grid" id="giftGrid">
+          <!-- Gift cards will be generated here -->
+        </div>
+      </section>
 
-      <div class="layout">
-        <section>
-          <h2 style="margin-top:12px">Presentes</h2>
-          <div id="gift-list" class="gift-list" role="list"></div>
-
-          <div style="margin-top:12px">
-            <h3 style="margin:0">Depoimentos & Mural</h3>
-            <p class="intro" style="color:var(--muted);margin:6px 0 8px 0">Deixe uma mensagem carinhosa — as melhores vão pro álbum físico dos noivos.</p>
-            <div style="display:flex;gap:8px;margin-bottom:8px">
-              <input id="guestName" placeholder="Seu nome" class="input" style="flex:1" />
-              <input id="guestMsg" placeholder="Mensagem" class="input" style="flex:2" />
-              <button id="guestBtn" class="btn primary">Enviar</button>
-            </div>
-            <div id="guestList" style="max-height:220px;overflow:auto;border-radius:10px;padding:8px;border:1px solid rgba(0,0,0,0.04)"></div>
+      <!-- Messages Section -->
+      <section class="messages-section">
+        <h2>Mural de Mensagens</h2>
+        <p class="text-muted">Deixe uma mensagem carinhosa para o casal. As mais especiais serão guardadas em nosso álbum físico.</p>
+        
+        <div class="message-form">
+          <div class="form-grid">
+            <input type="text" id="guestName" class="form-input" placeholder="Seu nome (opcional)" maxlength="50">
+            <textarea id="guestMessage" class="form-input" rows="3" placeholder="Escreva sua mensagem..." maxlength="500"></textarea>
+            <button id="sendMessage" class="btn btn-primary">
+              <span>Enviar Mensagem</span>
+              <span class="loading hidden"></span>
+            </button>
           </div>
-        </section>
-
-        <aside class="side">
-          <h2>Presentear</h2>
-          <p class="muted">Escolha um valor da lista ou digite outro valor.</p>
-
-          <div id="metrics" class="metrics">
-            <div class="metric"><small>Coletado</small><strong id="collected">R$ 0,00</strong></div>
-            <div class="metric"><small>Doações</small><strong id="count">0</strong></div>
-          </div>
-
-          <div style="height:12px"></div>
-
-          <div id="side-list"></div>
-
-          <hr style="margin:12px 0;border:none;border-top:1px dashed rgba(0,0,0,0.05)" />
-
-          <h2 class="fancy">Valor livre</h2>
-          <div class="custom-row">
-            <div class="input-wrapper" style="flex:1">
-              <span class="currency">R$</span>
-              <input id="customValue" class="input" placeholder="50,00" inputmode="decimal" />
-            </div>
-            <button id="customBtn" class="btn primary">Presentear</button>
-          </div>
-
-          <div style="margin-top:10px;display:flex;gap:8px">
-            <button id="shareBtn" class="btn secondary">Compartilhar</button>
-            <button id="printBtn" class="btn secondary">Imprimir</button>
-          </div>
-
-          <small style="display:block;margin-top:10px;color:var(--muted)">Pix: <span id="pixName">Erislene F Pinheiro</span> • Cidade: <span id="pixCity">Caxias</span></small>
-        </aside>
-      </div>
+        </div>
+        
+        <div class="messages-list" id="messagesList">
+          <!-- Messages will be loaded here -->
+        </div>
+      </section>
     </main>
-  </div>
 
-  <!-- Modal PIX -->
-  <div id="pix-modal" class="modal" hidden>
-    <div class="modal-panel">
-      <button class="modal-close" id="modalClose">✕</button>
-      <h3 id="modal-title">Quase lá — confirme</h3>
-      <p id="modal-sub" class="muted"></p>
-      <div id="qrcode"></div>
-      <pre id="pix-code" class="pix-code" tabindex="0"></pre>
-      <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
-        <button id="copyBtn" class="btn secondary">Copiar</button>
-        <button id="openBankBtn" class="btn primary">Abrir app do banco</button>
+    <!-- Action Panel (Bottom Sheet) -->
+    <div class="action-panel" id="actionPanel">
+      <div class="action-panel-handle"></div>
+      
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-value" id="totalAmount">R$ 0,00</div>
+          <div class="metric-label">Total Arrecadado</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" id="totalContributions">0</div>
+          <div class="metric-label">Contribuições</div>
+        </div>
       </div>
-      <div id="copyFeedback" style="margin-top:8px;color:var(--accent);min-height:18px"></div>
+      
+      <div class="custom-amount">
+        <h3 class="mb-2">Presentear com Valor Personalizado</h3>
+        <div class="input-group">
+          <span class="currency-symbol">R$</span>
+          <input type="number" id="customAmount" class="amount-input" placeholder="0,00" min="1" step="0.01">
+        </div>
+        
+        <div class="quick-amounts">
+          <button class="quick-amount" data-amount="50">R$ 50</button>
+          <button class="quick-amount" data-amount="100">R$ 100</button>
+          <button class="quick-amount" data-amount="150">R$ 150</button>
+          <button class="quick-amount" data-amount="200">R$ 200</button>
+          <button class="quick-amount" data-amount="300">R$ 300</button>
+        </div>
+      </div>
+      
+      <button id="openActionPanel" class="btn btn-primary" style="width: 100%;">
+        <span>Ver Todos os Presentes</span>
+      </button>
+    </div>
+
+    <!-- PIX Modal -->
+    <div class="modal-overlay" id="pixModal">
+      <div class="modal-container">
+        <button class="close-modal" id="closeModal">×</button>
+        
+        <div class="modal-header">
+          <span class="modal-icon">🎁</span>
+          <h3 class="modal-title">Presente Confirmado!</h3>
+          <p class="text-muted">Escaneie o QR Code ou copie o código PIX para concluir sua contribuição</p>
+          <div class="modal-amount" id="modalAmount">R$ 0,00</div>
+        </div>
+        
+        <div class="qrcode-container" id="qrcodeContainer">
+          <!-- QR Code will be generated here -->
+        </div>
+        
+        <div class="pix-code" id="pixCode" contenteditable="true"></div>
+        
+        <div class="modal-actions">
+          <button class="btn btn-secondary" id="copyPix">
+            <span>Copiar Código</span>
+          </button>
+          <button class="btn btn-primary" id="openBankApp">
+            <span>Abrir Banco</span>
+          </button>
+        </div>
+        
+        <p class="text-center text-muted mt-3">
+          Chave PIX: <strong>5f7ffa30-e8b5-4f42-9059-87f582da4a56</strong><br>
+          Nome: Erislene F Pinheiro • Cidade: Caxias
+        </p>
+      </div>
+    </div>
+
+    <!-- FAB Menu -->
+    <div class="fab-container">
+      <div class="fab-menu" id="fabMenu">
+        <button class="fab-item" id="shareButton" title="Compartilhar">
+          <span>↗</span>
+        </button>
+        <button class="fab-item" id="printButton" title="Imprimir">
+          <span>🖨</span>
+        </button>
+      </div>
+      <button class="fab" id="mainFab">
+        <span>+</span>
+      </button>
     </div>
   </div>
 
-  <!-- Toast & Spinner -->
-  <div id="toast" class="toast" hidden></div>
-  <div id="spinner" class="spinner" hidden><div style="width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.85);box-shadow:0 6px 20px rgba(0,0,0,0.08)"><div style="width:28px;height:28px;border:4px solid var(--accent);border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite"></div></div></div>
-
   <script type="module">
-    // ========== CONFIG =============
+    // ========== FIREBASE CONFIG ==========
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -195,216 +1083,522 @@
       appId: "1:499973986307:web:13ddac45d112a199385636",
       measurementId: "G-M31VC8Q7EK"
     };
-    const appId = 'casamento-paulo-erislene-2025';
-    const pixConfig = { chave: '5f7ffa30-e8b5-4f42-9059-87f582da4a56', nome: 'Erislene F Pinheiro', cidade: 'Caxias' };
 
-    // ========== INIT FIREBASE =============
+    const appId = 'casamento-paulo-erislene-2025';
+    const pixConfig = {
+      chave: '5f7ffa30-e8b5-4f42-9059-87f582da4a56',
+      nome: 'Erislene F Pinheiro',
+      cidade: 'Caxias'
+    };
+
+    // ========== INIT FIREBASE ==========
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
-    signInAnonymously(auth).catch(e=>console.warn('Auth error',e));
+    signInAnonymously(auth).catch(e => console.warn('Auth error:', e));
 
-    // ========== DOM =============
-    const listaDeItens = [
-      { nome: "Para o noivo pagar o barbeiro e não assustar no altar.", valor: 50.00, imagem: "https://images.pexels.com/photos/3998414/pexels-photo-3998414.jpeg?auto=compress&cs=tinysrgb&w=300" },
-      { nome: "Para a noiva garantir o penteado dos sonhos (e não surtar no dia).", valor: 60.00, imagem: "https://images.pexels.com/photos/3014856/pexels-photo-3014856.jpeg?auto=compress&cs=tinysrgb&w=300" },
-      { nome: "Para comprar a gravata do noivo que ainda não decidiu a cor.", valor: 70.00, imagem: "https://images.pexels.com/photos/164893/pexels-photo-164893.jpeg?auto=compress&cs=tinysrgb&w=300" },
-      { nome: "Para garantir os docinhos que você vai comer escondido.", valor: 80.00, imagem: "https://images.pexels.com/photos/2144200/pexels-photo-2144200.jpeg?auto=compress&cs=tinysrgb&w=300" },
-      { nome: "Para ajudar a noiva a terminar de pagar o vestido (spoiler: tá lindo!).", valor: 90.00, imagem: "https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=300" },
-      { nome: "Para contribuir com a lua de mel (porque eles merecem fugir um pouco).", valor: 100.00, imagem: "https://images.pexels.com/photos/3823495/pexels-photo-3823495.jpeg?auto=compress&cs=tinysrgb&w=300" },
-      { nome: "Para o casal brindar com espumante e esquecer o boleto da decoração.", valor: 120.00, imagem: "https://images.pexels.com/photos/1128797/pexels-photo-1128797.jpeg?auto=compress&cs=tinysrgb&w=300" },
-      { nome: "Para ajudar no aluguel do salão (e não casar na praça rs).", valor: 150.00, imagem: "https://images.pexels.com/photos/169198/pexels-photo-169198.jpeg?auto=compress&cs=tinysrgb&w=300" },
-      { nome: "Garantir a festa com som na pista de dança!", valor: 200.00, imagem: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=300" },
-      { nome: "Ajudar os noivos a respirarem aliviados com as contas!", valor: 300.00, imagem: "https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg?auto=compress&cs=tinysrgb&w=300" }
+    // ========== GIFT ITEMS ==========
+    const giftItems = [
+      {
+        nome: "Para o noivo pagar o barbeiro e não assustar no altar.",
+        valor: 50.00,
+        imagem: "https://images.pexels.com/photos/3998414/pexels-photo-3998414.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+      },
+      {
+        nome: "Para a noiva garantir o penteado dos sonhos (e não surtar no dia).",
+        valor: 60.00,
+        imagem: "https://images.pexels.com/photos/3014856/pexels-photo-3014856.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+      },
+      {
+        nome: "Para comprar a gravata do noivo que ainda não decidiu a cor.",
+        valor: 70.00,
+        imagem: "https://images.pexels.com/photos/164893/pexels-photo-164893.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+      },
+      {
+        nome: "Para garantir os docinhos que você vai comer escondido.",
+        valor: 80.00,
+        imagem: "https://images.pexels.com/photos/2144200/pexels-photo-2144200.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+      },
+      {
+        nome: "Para ajudar a noiva a terminar de pagar o vestido (spoiler: tá lindo!).",
+        valor: 90.00,
+        imagem: "https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+      },
+      {
+        nome: "Para contribuir com a lua de mel (porque eles merecem fugir um pouco).",
+        valor: 100.00,
+        imagem: "https://images.pexels.com/photos/3823495/pexels-photo-3823495.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+      },
+      {
+        nome: "Para o casal brindar com espumante e esquecer o boleto da decoração.",
+        valor: 120.00,
+        imagem: "https://images.pexels.com/photos/1128797/pexels-photo-1128797.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+      },
+      {
+        nome: "Para ajudar no aluguel do salão (e não casar na praça rs).",
+        valor: 150.00,
+        imagem: "https://images.pexels.com/photos/169198/pexels-photo-169198.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+      },
+      {
+        nome: "Garantir a festa com som na pista de dança!",
+        valor: 200.00,
+        imagem: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+      },
+      {
+        nome: "Ajudar os noivos a respirarem aliviados com as contas!",
+        valor: 300.00,
+        imagem: "https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop"
+      }
     ];
 
-    // Elements
-    const giftListEl = document.getElementById('gift-list');
-    const sideList = document.getElementById('side-list');
-    const customBtn = document.getElementById('customBtn');
-    const customValueInput = document.getElementById('customValue');
-    const pixModal = document.getElementById('pix-modal');
-    const modalClose = document.getElementById('modalClose');
-    const qrcodeWrap = document.getElementById('qrcode');
-    const pixCodeEl = document.getElementById('pix-code');
-    const copyBtn = document.getElementById('copyBtn');
-    const openBankBtn = document.getElementById('openBankBtn');
-    const toast = document.getElementById('toast');
-    const spinner = document.getElementById('spinner');
-    const collectedEl = document.getElementById('collected');
-    const countEl = document.getElementById('count');
-    const countdownEl = document.getElementById('countdown');
-    const guestBtn = document.getElementById('guestBtn');
-    const guestName = document.getElementById('guestName');
-    const guestMsg = document.getElementById('guestMsg');
-    const guestList = document.getElementById('guestList');
-    const shareBtn = document.getElementById('shareBtn');
-    const printBtn = document.getElementById('printBtn');
-    const themeToggle = document.getElementById('themeToggle');
+    // ========== DOM ELEMENTS ==========
+    const elements = {
+      giftGrid: document.getElementById('giftGrid'),
+      actionPanel: document.getElementById('actionPanel'),
+      mainFab: document.getElementById('mainFab'),
+      fabMenu: document.getElementById('fabMenu'),
+      openActionPanel: document.getElementById('openActionPanel'),
+      themeToggle: document.getElementById('themeToggle'),
+      days: document.getElementById('days'),
+      hours: document.getElementById('hours'),
+      minutes: document.getElementById('minutes'),
+      totalAmount: document.getElementById('totalAmount'),
+      totalContributions: document.getElementById('totalContributions'),
+      customAmount: document.getElementById('customAmount'),
+      pixModal: document.getElementById('pixModal'),
+      closeModal: document.getElementById('closeModal'),
+      qrcodeContainer: document.getElementById('qrcodeContainer'),
+      pixCode: document.getElementById('pixCode'),
+      copyPix: document.getElementById('copyPix'),
+      openBankApp: document.getElementById('openBankApp'),
+      modalAmount: document.getElementById('modalAmount'),
+      guestName: document.getElementById('guestName'),
+      guestMessage: document.getElementById('guestMessage'),
+      sendMessage: document.getElementById('sendMessage'),
+      messagesList: document.getElementById('messagesList'),
+      shareButton: document.getElementById('shareButton'),
+      printButton: document.getElementById('printButton')
+    };
 
-    // Helpers
-    function formatCurrency(value){ return 'R$ ' + Number(value).toFixed(2).replace('.',','); }
-    function showToast(msg){ toast.hidden = false; toast.textContent = msg; setTimeout(()=> toast.hidden = true,3500); }
-    function showSpinner(show=true){ spinner.hidden = !show; }
+    // ========== UTILITIES ==========
+    const utils = {
+      formatCurrency: (value) => {
+        return new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        }).format(value);
+      },
+      
+      showToast: (message, type = 'success') => {
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        toast.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: var(--bg-card);
+          color: var(--text-primary);
+          padding: 1rem 1.5rem;
+          border-radius: var(--radius-md);
+          border-left: 4px solid ${type === 'success' ? 'var(--accent-gold)' : '#ff4757'};
+          box-shadow: var(--shadow-lg);
+          z-index: 9999;
+          transform: translateX(150%);
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          max-width: 300px;
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // Animate in
+        setTimeout(() => {
+          toast.style.transform = 'translateX(0)';
+        }, 10);
+        
+        // Remove after delay
+        setTimeout(() => {
+          toast.style.transform = 'translateX(150%)';
+          setTimeout(() => {
+            document.body.removeChild(toast);
+          }, 300);
+        }, 3000);
+      },
+      
+      loading: (element, show) => {
+        const loading = element.querySelector('.loading');
+        if (loading) {
+          loading.classList.toggle('hidden', !show);
+          element.disabled = show;
+        }
+      }
+    };
 
-    // Render cards
-    function makeCard(item, idx){
-      const el = document.createElement('div'); el.className='card';
-      el.innerHTML = `
-        <img class="thumb" src="${item.imagem}" alt="${item.nome}" loading="lazy" />
-        <div class="info">
-          <h3>${item.nome}</h3>
-          <p>${formatCurrency(item.valor)}</p>
-        </div>
-        <div class="actions">
-          <button class="btn secondary" data-idx="${idx}">Detalhes</button>
-          <button class="btn primary" data-buy="${idx}">Presentear</button>
-        </div>
-      `;
-      return el;
-    }
-
-    function populate(){
-      giftListEl.innerHTML=''; sideList.innerHTML='';
-      listaDeItens.forEach((it,i)=>{ giftListEl.appendChild(makeCard(it,i));
-        const brief = document.createElement('div'); brief.style.margin='8px 0'; brief.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><small style="color:var(--muted)">${it.nome}</small><strong>${formatCurrency(it.valor)}</strong></div><div style="text-align:right;margin-top:6px"><button class=\"btn primary\" data-buy=\"${i}\">Pagar ${formatCurrency(it.valor)}</button></div>`;
-        sideList.appendChild(brief);
+    // ========== GIFT CARDS RENDERING ==========
+    function renderGiftCards() {
+      elements.giftGrid.innerHTML = '';
+      
+      giftItems.forEach((gift, index) => {
+        const card = document.createElement('div');
+        card.className = 'gift-card';
+        card.style.setProperty('--order', index);
+        
+        card.innerHTML = `
+          <img src="${gift.imagem}" alt="${gift.nome}" class="gift-image" loading="lazy">
+          <h3 class="gift-title">${gift.nome}</h3>
+          <div class="gift-price">${utils.formatCurrency(gift.valor)}</div>
+          <div class="gift-actions">
+            <button class="btn btn-primary" data-gift-index="${index}">
+              Presentear
+            </button>
+            <button class="btn btn-secondary" onclick="utils.showToast('Presente selecionado: ${gift.nome}', 'success')">
+              Detalhes
+            </button>
+          </div>
+        `;
+        
+        elements.giftGrid.appendChild(card);
+      });
+      
+      // Add event listeners to gift buttons
+      document.querySelectorAll('[data-gift-index]').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const index = parseInt(e.target.dataset.giftIndex);
+          openPixModal(giftItems[index].nome, giftItems[index].valor);
+        });
       });
     }
 
-    // Events for buttons via delegation
-    document.addEventListener('click', (e)=>{
-      const buy = e.target.closest('[data-buy]');
-      if(buy){ const idx = Number(buy.dataset.buy); const item = listaDeItens[idx]; abrirModalPix(item.nome, item.valor); }
-      const det = e.target.closest('[data-idx]'); if(det){ showToast('Clique em Presentear para abrir o Pix — valeu!'); }
-    });
-
-    // Custom value
-    customBtn.addEventListener('click', ()=>{
-      let v = customValueInput.value.trim().replace(',','.'); v = Number(v);
-      if(!v || isNaN(v) || v < 1){ showToast('Digite um valor válido (mínimo R$ 1,00)'); customValueInput.focus(); return; }
-      abrirModalPix('Presente personalizado', v);
-    });
-
-    // Modal logic
-    function openModal(){ pixModal.hidden = false; pixModal.style.display='flex'; pixModal.setAttribute('aria-hidden','false'); }
-    function closeModal(){ pixModal.hidden = true; pixModal.style.display='none'; pixModal.setAttribute('aria-hidden','true'); qrcodeWrap.innerHTML=''; pixCodeEl.textContent=''; }
-    modalClose.addEventListener('click', closeModal);
-    pixModal.addEventListener('click', (ev)=>{ if(ev.target === pixModal) closeModal(); });
-    document.addEventListener('keydown',(ev)=>{ if(ev.key==='Escape' && !pixModal.hidden) closeModal(); });
-
-    // PIX payload generator
-    function id(tag,val){return tag+String(val.length).padStart(2,'0')+val}
-    function crc16(payload){ let pol=0x1021; let res=0xFFFF; for(let i=0;i<payload.length;i++){ res ^= payload.charCodeAt(i)<<8; for(let j=0;j<8;j++){ if((res&0x8000)!==0){ res = ((res<<1)^pol)&0xFFFF; } else { res = (res<<1)&0xFFFF; } } } return res.toString(16).toUpperCase().padStart(4,'0'); }
-    function gerarPayload(chave,nome,cidade,valor){ valor = Number(valor).toFixed(2); nome = String(nome).substring(0,25); cidade = String(cidade).toUpperCase().replace(/[^A-Z ]/g,'').substring(0,15);
-      const gui = id('00','br.gov.bcb.pix') + id('01',chave);
-      const merchant = id('26',gui);
-      let payload = '000201' + merchant + '52040000' + '5303986' + id('54',valor) + '5802BR' + id('59',nome) + id('60',cidade) + '62' + id('05','****') + '6304';
-      return payload + crc16(payload);
+    // ========== PIX MODAL ==========
+    function openPixModal(itemName, amount) {
+      elements.modalAmount.textContent = utils.formatCurrency(amount);
+      
+      // Clear previous QR code
+      elements.qrcodeContainer.innerHTML = '';
+      
+      // Generate PIX payload
+      const payload = generatePixPayload(amount);
+      
+      // Generate QR Code
+      new QRCode(elements.qrcodeContainer, {
+        text: payload,
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      
+      // Display PIX code
+      elements.pixCode.textContent = payload;
+      
+      // Show modal
+      elements.pixModal.classList.add('active');
+      
+      // Save contribution to Firebase
+      saveContribution(itemName, amount);
     }
 
-    function chunkString(str,len){ const out=[]; for(let i=0;i<str.length;i+=len) out.push(str.substr(i,len)); return out.join('\n'); }
-
-    async function abrirModalPix(nome,valor){
-      openModal(); showSpinner(true);
-      try{
-        const payload = gerarPayload(pixConfig.chave, pixConfig.nome, pixConfig.cidade, valor);
-        qrcodeWrap.innerHTML=''; new QRCode(qrcodeWrap, { text: payload, width:220, height:220 });
-        pixCodeEl.textContent = chunkString(payload,40);
-        // salvar no Firestore
-        await addDoc(collection(db, `/artifacts/${appId}/public/data/presentes`), { nome: nome, valor: Number(valor), data: serverTimestamp() });
-        showToast('Contribuição registrada — obrigado!');
-        // confetti
-        confetti({ particleCount: 80, spread: 90, origin: { y: 0.6 } });
-        // atualiza métricas
-        await atualizarMetricas();
-      } catch(e){ console.error('erro pix',e); showToast('Erro ao processar — tente novamente.'); }
-      finally{ showSpinner(false); }
+    function generatePixPayload(amount) {
+      // Simplified PIX payload generation
+      const payload = {
+        chave: pixConfig.chave,
+        nome: pixConfig.nome,
+        cidade: pixConfig.cidade,
+        valor: amount.toFixed(2),
+        descricao: `Presente para Paulo e Erislene - ${utils.formatCurrency(amount)}`
+      };
+      
+      // Return a PIX copia e cola code
+      return `00020126580014br.gov.bcb.pix0136${pixConfig.chave}5204000053039865406${amount.toFixed(2)}5802BR5925${pixConfig.nome}6006${pixConfig.cidade}62070503***6304`;
     }
 
-    copyBtn.addEventListener('click', async ()=>{
-      const txt = pixCodeEl.textContent;
-      try{ await navigator.clipboard.writeText(txt); document.getElementById('copyFeedback').textContent='Código copiado!'; }
-      catch(e){ fallbackCopyTextToClipboard(txt); document.getElementById('copyFeedback').textContent='Código copiado (fallback)!'; }
-      setTimeout(()=> document.getElementById('copyFeedback').textContent='',2500);
-    });
-    pixCodeEl.addEventListener('click', ()=> copyBtn.click());
-
-    function fallbackCopyTextToClipboard(text){ const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.left='-9999px'; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){console.warn('fallback copy failed',e);} document.body.removeChild(ta); }
-
-    openBankBtn.addEventListener('click', ()=> window.open('https://pagamentos.bb.com.br/pix/','_blank'));
-
-    // ========== Guests mural =============
-    guestBtn.addEventListener('click', async ()=>{
-      const nome = (guestName.value||'Anônimo').trim(); const msg= (guestMsg.value||'').trim(); if(!msg){ showToast('Escreve uma mensagem antes 😉'); return; }
-      try{ await addDoc(collection(db, `/artifacts/${appId}/public/data/mural`), { nome, msg, data: serverTimestamp() }); guestName.value=''; guestMsg.value=''; showToast('Mensagem enviada — valeu!'); await carregarMural(); }
-      catch(e){ console.error(e); showToast('Erro ao enviar mensagem.'); }
-    });
-
-    async function carregarMural(){
-      guestList.innerHTML='';
-      try{
-        const q = query(collection(db, `/artifacts/${appId}/public/data/mural`), orderBy('data','desc'));
-        const snap = await getDocs(q);
-        snap.forEach(doc=>{ const d = doc.data(); const el = document.createElement('div'); el.style.padding='8px'; el.style.borderBottom='1px dashed rgba(0,0,0,0.04)'; el.innerHTML = `<strong>${d.nome}</strong><div style="color:var(--muted)">${d.msg}</div><small style=\"color:var(--muted)\">${d.data?.toDate? d.data.toDate().toLocaleString() : ''}</small>`; guestList.appendChild(el); });
-      }catch(e){ console.warn('carregar mural',e); }
+    async function saveContribution(itemName, amount) {
+      try {
+        await addDoc(collection(db, `/artifacts/${appId}/public/data/presentes`), {
+          nome: itemName,
+          valor: amount,
+          data: serverTimestamp(),
+          tipo: 'presente'
+        });
+        
+        utils.showToast('Contribuição registrada! Obrigado pelo presente!', 'success');
+        
+        // Launch confetti
+        launchConfetti();
+        
+        // Update metrics
+        updateMetrics();
+      } catch (error) {
+        console.error('Error saving contribution:', error);
+        utils.showToast('Erro ao salvar contribuição. Tente novamente.', 'error');
+      }
     }
 
-    // ========== Metrics (sum contributions) =============
-    async function atualizarMetricas(){
-      try{
-        const snap = await getDocs(collection(db, `/artifacts/${appId}/public/data/presentes`));
-        let total = 0; let c = 0; snap.forEach(doc=>{ const d = doc.data(); total += Number(d.valor || 0); c++; });
-        collectedEl.textContent = formatCurrency(total);
-        countEl.textContent = String(c);
-      }catch(e){ console.warn('metrics',e); }
+    function launchConfetti() {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#d4af37', '#b89521', '#f1e6d3', '#e8c8c8']
+      });
     }
 
-    // ========== Countdown =============
-    const weddingDate = new Date('2025-12-02T16:00:00');
-    function atualizarCountdown(){ const now=new Date(); const diff=weddingDate-now; if(diff<=0){ countdownEl.textContent='O grande dia chegou — viva os noivos! 🎉'; return; } const dias=Math.floor(diff/(1000*60*60*24)); const hrs=Math.floor((diff%(1000*60*60*24))/(1000*60*60)); const mins=Math.floor((diff%(1000*60*60))/(1000*60)); countdownEl.textContent = `${dias}d ${hrs}h ${mins}m`; }
-    setInterval(atualizarCountdown,60*1000); atualizarCountdown();
-
-    // ========== Theme ==========
-    function applyTheme(theme){ document.documentElement.setAttribute('data-theme',theme); themeToggle.setAttribute('aria-pressed', theme==='dark'); localStorage.setItem('theme',theme); }
-    themeToggle.addEventListener('click', ()=>{ const cur = localStorage.getItem('theme')||'light'; applyTheme(cur==='light'?'dark':'light'); });
-    (function(){ const saved = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); applyTheme(saved); })();
-
-    // ========== Share & Print ==========
-    shareBtn.addEventListener('click', async ()=>{
-      if(navigator.share){ try{ await navigator.share({ title: 'Lista de Presentes — Paulo & Erislene', text: 'Confira a lista de presentes do nosso casamento!', url: location.href }); showToast('Compartilhado!'); }catch(e){ console.warn(e); }} else { navigator.clipboard.writeText(location.href).then(()=> showToast('Link copiado!')); }
-    });
-    printBtn.addEventListener('click', ()=> window.print());
-
-    // ========== Init =============
-    async function init(){ populate(); await atualizarMetricas(); await carregarMural(); }
-    window.addEventListener('load', init);
-
-    // ========== Service Worker (offline suport) =============
-    if('serviceWorker' in navigator){ try{ navigator.serviceWorker.register('sw.js').then(()=> console.log('sw registered')).catch(()=>{}); }catch(e){}
+    // ========== MESSAGES SYSTEM ==========
+    async function sendMessage() {
+      const name = elements.guestName.value.trim() || 'Anônimo';
+      const message = elements.guestMessage.value.trim();
+      
+      if (!message) {
+        utils.showToast('Por favor, escreva uma mensagem.', 'error');
+        return;
+      }
+      
+      utils.loading(elements.sendMessage, true);
+      
+      try {
+        await addDoc(collection(db, `/artifacts/${appId}/public/data/mural`), {
+          nome: name,
+          msg: message,
+          data: serverTimestamp()
+        });
+        
+        elements.guestName.value = '';
+        elements.guestMessage.value = '';
+        utils.showToast('Mensagem enviada com sucesso!', 'success');
+        
+        loadMessages();
+      } catch (error) {
+        console.error('Error sending message:', error);
+        utils.showToast('Erro ao enviar mensagem. Tente novamente.', 'error');
+      } finally {
+        utils.loading(elements.sendMessage, false);
+      }
     }
 
-    // Accessibility helpers: keyboard shortcuts
-    document.addEventListener('keydown',(e)=>{
-      if(e.key==='t') themeToggle.click();
-      if(e.key==='s') shareBtn.click();
-      if(e.key==='c') window.scrollTo({top:0,behavior:'smooth'});
-    });
+    async function loadMessages() {
+      try {
+        const q = query(
+          collection(db, `/artifacts/${appId}/public/data/mural`),
+          orderBy('data', 'desc')
+        );
+        
+        const snapshot = await getDocs(q);
+        elements.messagesList.innerHTML = '';
+        
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const messageCard = document.createElement('div');
+          messageCard.className = 'message-card';
+          
+          const date = data.data?.toDate ? data.data.toDate() : new Date();
+          
+          messageCard.innerHTML = `
+            <div class="message-header">
+              <span class="message-author">${data.nome}</span>
+              <span class="message-time">${date.toLocaleDateString('pt-BR')}</span>
+            </div>
+            <div class="message-content">${data.msg}</div>
+          `;
+          
+          elements.messagesList.appendChild(messageCard);
+        });
+      } catch (error) {
+        console.error('Error loading messages:', error);
+      }
+    }
 
+    // ========== METRICS SYSTEM ==========
+    async function updateMetrics() {
+      try {
+        const snapshot = await getDocs(collection(db, `/artifacts/${appId}/public/data/presentes`));
+        
+        let total = 0;
+        let count = 0;
+        
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          total += parseFloat(data.valor) || 0;
+          count++;
+        });
+        
+        elements.totalAmount.textContent = utils.formatCurrency(total);
+        elements.totalContributions.textContent = count;
+      } catch (error) {
+        console.error('Error updating metrics:', error);
+      }
+    }
+
+    // ========== COUNTDOWN TIMER ==========
+    function updateCountdown() {
+      const weddingDate = new Date('2025-12-02T16:00:00');
+      const now = new Date();
+      const diff = weddingDate - now;
+      
+      if (diff <= 0) {
+        elements.days.textContent = '00';
+        elements.hours.textContent = '00';
+        elements.minutes.textContent = '00';
+        return;
+      }
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      
+      elements.days.textContent = days.toString().padStart(2, '0');
+      elements.hours.textContent = hours.toString().padStart(2, '0');
+      elements.minutes.textContent = minutes.toString().padStart(2, '0');
+    }
+
+    // ========== THEME SYSTEM ==========
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'auto' ? (prefersDark ? 'dark' : 'light') : savedTheme;
+      
+      document.documentElement.setAttribute('data-theme', theme);
+      elements.themeToggle.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+      
+      elements.themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        elements.themeToggle.innerHTML = newTheme === 'dark' ? '☀️' : '🌙';
+        
+        utils.showToast(`Tema ${newTheme === 'dark' ? 'escuro' : 'claro'} ativado`, 'success');
+      });
+    }
+
+    // ========== EVENT LISTENERS ==========
+    function initEventListeners() {
+      // Action Panel Toggle
+      elements.mainFab.addEventListener('click', () => {
+        elements.fabMenu.classList.toggle('active');
+        elements.mainFab.innerHTML = elements.fabMenu.classList.contains('active') ? '×' : '+';
+      });
+      
+      elements.openActionPanel.addEventListener('click', () => {
+        elements.actionPanel.classList.add('active');
+      });
+      
+      // Close action panel when clicking outside
+      elements.actionPanel.addEventListener('click', (e) => {
+        if (e.target === elements.actionPanel) {
+          elements.actionPanel.classList.remove('active');
+        }
+      });
+      
+      // PIX Modal
+      elements.closeModal.addEventListener('click', () => {
+        elements.pixModal.classList.remove('active');
+      });
+      
+      elements.pixModal.addEventListener('click', (e) => {
+        if (e.target === elements.pixModal) {
+          elements.pixModal.classList.remove('active');
+        }
+      });
+      
+      // Copy PIX Code
+      elements.copyPix.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(elements.pixCode.textContent);
+          utils.showToast('Código PIX copiado!', 'success');
+        } catch (err) {
+          console.error('Failed to copy:', err);
+          utils.showToast('Erro ao copiar código', 'error');
+        }
+      });
+      
+      // Open Bank App
+      elements.openBankApp.addEventListener('click', () => {
+        window.open('https://pagamentos.bb.com.br/pix/', '_blank');
+      });
+      
+      // Send Message
+      elements.sendMessage.addEventListener('click', sendMessage);
+      
+      // Quick Amount Buttons
+      document.querySelectorAll('.quick-amount').forEach(button => {
+        button.addEventListener('click', () => {
+          const amount = parseFloat(button.dataset.amount);
+          elements.customAmount.value = amount.toFixed(2);
+          openPixModal('Presente Personalizado', amount);
+        });
+      });
+      
+      // Custom Amount Form
+      elements.customAmount.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          const amount = parseFloat(elements.customAmount.value);
+          if (amount && amount > 0) {
+            openPixModal('Presente Personalizado', amount);
+          }
+        }
+      });
+      
+      // Share Button
+      elements.shareButton.addEventListener('click', async () => {
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: 'Lista de Presentes - Paulo & Erislene',
+              text: 'Confira a lista de presentes do casamento de Paulo e Erislene!',
+              url: window.location.href
+            });
+          } catch (err) {
+            console.log('Error sharing:', err);
+          }
+        } else {
+          navigator.clipboard.writeText(window.location.href);
+          utils.showToast('Link copiado para a área de transferência!', 'success');
+        }
+      });
+      
+      // Print Button
+      elements.printButton.addEventListener('click', () => {
+        window.print();
+      });
+      
+      // Keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          elements.pixModal.classList.remove('active');
+          elements.actionPanel.classList.remove('active');
+          elements.fabMenu.classList.remove('active');
+          elements.mainFab.innerHTML = '+';
+        }
+      });
+    }
+
+    // ========== INITIALIZATION ==========
+    async function init() {
+      renderGiftCards();
+      initTheme();
+      initEventListeners();
+      
+      // Start countdown
+      updateCountdown();
+      setInterval(updateCountdown, 60000);
+      
+      // Load initial data
+      await Promise.all([
+        updateMetrics(),
+        loadMessages()
+      ]);
+      
+      // Show welcome toast
+      setTimeout(() => {
+        utils.showToast('Bem-vindo à nossa lista de presentes! 💝', 'success');
+      }, 1000);
+    }
+
+    // Start the app
+    document.addEventListener('DOMContentLoaded', init);
   </script>
-
-  <!-- Service worker file inline as blob fallback. If you deploy, create /sw.js separately with desired cache strategy. -->
-  <script>
-    // Simple inline fallback: create a sw.js via blob so local testing (on server) can pick it up when creating file is allowed.
-    try{
-      const swCode = `self.addEventListener('install', event => { self.skipWaiting(); });
-      self.addEventListener('activate', event => { clients.claim(); });
-      self.addEventListener('fetch', event => { /* No special cache policy here; implement if desired. */ });`;
-      const blob = new Blob([swCode], {type:'application/javascript'});
-      const url = URL.createObjectURL(blob);
-      if('serviceWorker' in navigator){ navigator.serviceWorker.register(url).then(()=> console.log('inline SW registered')).catch(()=>{}); }
-    }catch(e){console.warn(e)}
-  </script>
-
 </body>
 </html>
